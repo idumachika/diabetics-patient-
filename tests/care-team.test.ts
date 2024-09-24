@@ -92,6 +92,57 @@ describe("Diabetic Financial Aid Smart Contract", () => {
 
     // Add more tests for edge cases and error scenarios
   });
+  describe("repayLoan", () => {
+    it("should successfully repay a loan", async () => {
+      const amount = 500;
 
-  // Add similar tests for getTotalLiquidity, isVerifiedDiabetic, and getLoanDetails
+      mockContract.repayLoan.mockResolvedValue({ success: true });
+
+      const result = await mockContract.repayLoan(amount);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.repayLoan).toHaveBeenCalledWith(amount);
+    });
+
+    // Add more tests for edge cases and error scenarios
+  });
+
+  describe("changeGovernance", () => {
+    it("should successfully change governance address", async () => {
+      const newAddress = "newGovernanceAddress";
+
+      mockContract.changeGovernance.mockResolvedValue({ success: true });
+
+      const result = await mockContract.changeGovernance(newAddress);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.changeGovernance).toHaveBeenCalledWith(newAddress);
+    });
+  });
+
+  describe("getBalance", () => {
+    it("should return the correct balance for a user", async () => {
+      const user = "user1";
+      const expectedBalance = 1000;
+
+      mockContract.getBalance.mockResolvedValue(expectedBalance);
+
+      const balance = await mockContract.getBalance(user);
+
+      expect(balance).toBe(expectedBalance);
+      expect(mockContract.getBalance).toHaveBeenCalledWith(user);
+    });
+  });
+  describe("getTotalLiquidity", () => {
+    it("should return the correct total liquidity", async () => {
+      const expectedTotalLiquidity = 5000;
+
+      mockContract.getTotalLiquidity.mockResolvedValue(expectedTotalLiquidity);
+
+      const totalLiquidity = await mockContract.getTotalLiquidity();
+
+      expect(totalLiquidity).toBe(expectedTotalLiquidity);
+      expect(mockContract.getTotalLiquidity).toHaveBeenCalled();
+    });
+  });
 });

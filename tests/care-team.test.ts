@@ -47,5 +47,21 @@ describe("Diabetic Financial Aid Smart Contract", () => {
     // Add more tests for edge cases and error scenarios
   });
 
+  describe("withdrawLiquidity", () => {
+    it("should successfully withdraw liquidity", async () => {
+      const amount = 500;
+      const sender = "user1";
+
+      mockContract.withdrawLiquidity.mockResolvedValue({ success: true });
+
+      const result = await mockContract.withdrawLiquidity(amount);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.withdrawLiquidity).toHaveBeenCalledWith(amount);
+    });
+
+    // Add more tests for edge cases and error scenarios
+  });
+
   // Add similar tests for getTotalLiquidity, isVerifiedDiabetic, and getLoanDetails
 });

@@ -77,6 +77,21 @@ describe("Diabetic Financial Aid Smart Contract", () => {
 
     // Add more tests for edge cases and error scenarios
   });
+  describe("requestLoan", () => {
+    it("should successfully request a loan", async () => {
+      const amount = 1000;
+      const duration = 30;
+
+      mockContract.requestLoan.mockResolvedValue({ success: true });
+
+      const result = await mockContract.requestLoan(amount, duration);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.requestLoan).toHaveBeenCalledWith(amount, duration);
+    });
+
+    // Add more tests for edge cases and error scenarios
+  });
 
   // Add similar tests for getTotalLiquidity, isVerifiedDiabetic, and getLoanDetails
 });

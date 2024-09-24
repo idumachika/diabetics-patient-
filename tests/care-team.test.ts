@@ -145,4 +145,27 @@ describe("Diabetic Financial Aid Smart Contract", () => {
       expect(mockContract.getTotalLiquidity).toHaveBeenCalled();
     });
   });
+  describe("isVerifiedDiabetic", () => {
+    it("should return true for a verified diabetic patient", async () => {
+      const patient = "patient1";
+
+      mockContract.isVerifiedDiabetic.mockResolvedValue(true);
+
+      const isVerified = await mockContract.isVerifiedDiabetic(patient);
+
+      expect(isVerified).toBe(true);
+      expect(mockContract.isVerifiedDiabetic).toHaveBeenCalledWith(patient);
+    });
+
+    it("should return false for an unverified patient", async () => {
+      const patient = "patient2";
+
+      mockContract.isVerifiedDiabetic.mockResolvedValue(false);
+
+      const isVerified = await mockContract.isVerifiedDiabetic(patient);
+
+      expect(isVerified).toBe(false);
+      expect(mockContract.isVerifiedDiabetic).toHaveBeenCalledWith(patient);
+    });
+  });
 });

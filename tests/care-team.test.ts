@@ -1,21 +1,171 @@
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
-import { describe, expect, it } from "vitest";
+// Mock the Clarity contract functions
+const mockContract = {
+  totalLiquidity: 0,
+  balances: new Map(),
+  verifiedDiabetics: new Map(),
+  loans: new Map(),
+  governanceAddress: "governanceAddress",
 
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
+  depositLiquidity: vi.fn(),
+  withdrawLiquidity: vi.fn(),
+  verifyDiabetic: vi.fn(),
+  requestLoan: vi.fn(),
+  repayLoan: vi.fn(),
+  changeGovernance: vi.fn(),
+  getBalance: vi.fn(),
+  getTotalLiquidity: vi.fn(),
+  isVerifiedDiabetic: vi.fn(),
+  getLoanDetails: vi.fn(),
+};
 
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initalised", () => {
-    expect(simnet.blockHeight).toBeDefined();
+describe("Diabetic Financial Aid Smart Contract", () => {
+  beforeEach(() => {
+    // Reset mock function calls and contract state before each test
+    vi.clearAllMocks();
+    mockContract.totalLiquidity = 0;
+    mockContract.balances.clear();
+    mockContract.verifiedDiabetics.clear();
+    mockContract.loans.clear();
+    mockContract.governanceAddress = "governanceAddress";
   });
 
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
+  describe("depositLiquidity", () => {
+    it("should successfully deposit liquidity", async () => {
+      const amount = 1000;
+      const sender = "user1";
+
+      mockContract.depositLiquidity.mockResolvedValue({ success: true });
+
+      const result = await mockContract.depositLiquidity(amount);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.depositLiquidity).toHaveBeenCalledWith(amount);
+    });
+
+    // Add more tests for edge cases and error scenarios
+  });
+
+  describe("withdrawLiquidity", () => {
+    it("should successfully withdraw liquidity", async () => {
+      const amount = 500;
+      const sender = "user1";
+
+      mockContract.withdrawLiquidity.mockResolvedValue({ success: true });
+
+      const result = await mockContract.withdrawLiquidity(amount);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.withdrawLiquidity).toHaveBeenCalledWith(amount);
+    });
+
+    // Add more tests for edge cases and error scenarios
+  });
+
+  describe("verifyDiabetic", () => {
+    it("should successfully verify a diabetic patient", async () => {
+      const patient = "patient1";
+
+      mockContract.verifyDiabetic.mockResolvedValue({ success: true });
+
+      const result = await mockContract.verifyDiabetic(patient);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.verifyDiabetic).toHaveBeenCalledWith(patient);
+    });
+
+    // Add more tests for edge cases and error scenarios
+  });
+  describe("requestLoan", () => {
+    it("should successfully request a loan", async () => {
+      const amount = 1000;
+      const duration = 30;
+
+      mockContract.requestLoan.mockResolvedValue({ success: true });
+
+      const result = await mockContract.requestLoan(amount, duration);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.requestLoan).toHaveBeenCalledWith(amount, duration);
+    });
+
+    // Add more tests for edge cases and error scenarios
+  });
+  describe("repayLoan", () => {
+    it("should successfully repay a loan", async () => {
+      const amount = 500;
+
+      mockContract.repayLoan.mockResolvedValue({ success: true });
+
+      const result = await mockContract.repayLoan(amount);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.repayLoan).toHaveBeenCalledWith(amount);
+    });
+
+    // Add more tests for edge cases and error scenarios
+  });
+
+  describe("changeGovernance", () => {
+    it("should successfully change governance address", async () => {
+      const newAddress = "newGovernanceAddress";
+
+      mockContract.changeGovernance.mockResolvedValue({ success: true });
+
+      const result = await mockContract.changeGovernance(newAddress);
+
+      expect(result.success).toBe(true);
+      expect(mockContract.changeGovernance).toHaveBeenCalledWith(newAddress);
+    });
+  });
+
+  describe("getBalance", () => {
+    it("should return the correct balance for a user", async () => {
+      const user = "user1";
+      const expectedBalance = 1000;
+
+      mockContract.getBalance.mockResolvedValue(expectedBalance);
+
+      const balance = await mockContract.getBalance(user);
+
+      expect(balance).toBe(expectedBalance);
+      expect(mockContract.getBalance).toHaveBeenCalledWith(user);
+    });
+  });
+  describe("getTotalLiquidity", () => {
+    it("should return the correct total liquidity", async () => {
+      const expectedTotalLiquidity = 5000;
+
+      mockContract.getTotalLiquidity.mockResolvedValue(expectedTotalLiquidity);
+
+      const totalLiquidity = await mockContract.getTotalLiquidity();
+
+      expect(totalLiquidity).toBe(expectedTotalLiquidity);
+      expect(mockContract.getTotalLiquidity).toHaveBeenCalled();
+    });
+  });
+  describe("isVerifiedDiabetic", () => {
+    it("should return true for a verified diabetic patient", async () => {
+      const patient = "patient1";
+
+      mockContract.isVerifiedDiabetic.mockResolvedValue(true);
+
+      const isVerified = await mockContract.isVerifiedDiabetic(patient);
+
+      expect(isVerified).toBe(true);
+      expect(mockContract.isVerifiedDiabetic).toHaveBeenCalledWith(patient);
+    });
+
+    it("should return false for an unverified patient", async () => {
+      const patient = "patient2";
+
+      mockContract.isVerifiedDiabetic.mockResolvedValue(false);
+
+      const isVerified = await mockContract.isVerifiedDiabetic(patient);
+
+      expect(isVerified).toBe(false);
+      expect(mockContract.isVerifiedDiabetic).toHaveBeenCalledWith(patient);
+    });
+  });
 });

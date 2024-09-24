@@ -1,21 +1,35 @@
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
-import { describe, expect, it } from "vitest";
+// Mock the Clarity contract functions
+const mockContract = {
+  totalLiquidity: 0,
+  balances: new Map(),
+  verifiedDiabetics: new Map(),
+  loans: new Map(),
+  governanceAddress: "governanceAddress",
 
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
+  depositLiquidity: vi.fn(),
+  withdrawLiquidity: vi.fn(),
+  verifyDiabetic: vi.fn(),
+  requestLoan: vi.fn(),
+  repayLoan: vi.fn(),
+  changeGovernance: vi.fn(),
+  getBalance: vi.fn(),
+  getTotalLiquidity: vi.fn(),
+  isVerifiedDiabetic: vi.fn(),
+  getLoanDetails: vi.fn(),
+};
 
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initalised", () => {
-    expect(simnet.blockHeight).toBeDefined();
+describe("Diabetic Financial Aid Smart Contract", () => {
+  beforeEach(() => {
+    // Reset mock function calls and contract state before each test
+    vi.clearAllMocks();
+    mockContract.totalLiquidity = 0;
+    mockContract.balances.clear();
+    mockContract.verifiedDiabetics.clear();
+    mockContract.loans.clear();
+    mockContract.governanceAddress = "governanceAddress";
   });
 
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
+  // Add similar tests for getTotalLiquidity, isVerifiedDiabetic, and getLoanDetails
 });
